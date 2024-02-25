@@ -4,7 +4,7 @@ import prismadb from "@/lib/prismadb";
 import { formatter } from "@/lib/utils";
 
 import { ProductsClient } from "./components/client";
-import { ProductColumn } from "./components/columns";
+import { ProductInfor } from "./components/product-view";
 
 const ProductsPage = async ({
   params
@@ -17,7 +17,7 @@ const ProductsPage = async ({
     },
     include: {
       category: true,
-      size: true,
+      detail: true,
       color: true,
     },
     orderBy: {
@@ -25,14 +25,16 @@ const ProductsPage = async ({
     }
   });
 
-  const formattedProducts: ProductColumn[] = products.map((item) => ({
+  const formattedProducts: ProductInfor[] = products.map((item) => ({
     id: item.id,
     name: item.name,
     isFeatured: item.isFeatured,
     isArchived: item.isArchived,
     price: formatter.format(item.price.toNumber()),
+    supply: formatter.format(item.supply),
     category: item.category.name,
-    size: item.size.name,
+    // file: item.fileId.toString(),
+    detail: item.detail.name,
     color: item.color.value,
     createdAt: format(item.createdAt, 'MMMM do, yyyy'),
   }));

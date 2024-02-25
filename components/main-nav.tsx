@@ -15,42 +15,42 @@ export function MainNav({
   const routes = [
     {
       href: `/${params.storeId}`,
-      label: 'Overview',
+      label: 'Doanh Thu',
       active: pathname === `/${params.storeId}`,
     },
     {
       href: `/${params.storeId}/billboards`,
-      label: 'Billboards',
+      label: 'Bảng Quảng Cáo',
       active: pathname === `/${params.storeId}/billboards`,
     },
     {
       href: `/${params.storeId}/categories`,
-      label: 'Categories',
+      label: 'Danh Mục Tìm Kiếm',
       active: pathname === `/${params.storeId}/categories`,
     },
     {
-      href: `/${params.storeId}/sizes`,
-      label: 'Sizes',
-      active: pathname === `/${params.storeId}/sizes`,
+      href: `/${params.storeId}/details`,
+      label: 'Đặc Điểm',
+      active: pathname === `/${params.storeId}/details`,
     },
     {
       href: `/${params.storeId}/colors`,
-      label: 'Colors',
+      label: 'Miêu Tả',
       active: pathname === `/${params.storeId}/colors`,
     },
     {
       href: `/${params.storeId}/products`,
-      label: 'Products',
+      label: 'Danh Sách Sản Phẩm',
       active: pathname === `/${params.storeId}/products`,
     },
     {
       href: `/${params.storeId}/orders`,
-      label: 'Orders',
+      label: 'Danh Sách Đơn Hàng',
       active: pathname === `/${params.storeId}/orders`,
     },
     {
       href: `/${params.storeId}/settings`,
-      label: 'Settings',
+      label: 'Cài Đặt',
       active: pathname === `/${params.storeId}/settings`,
     },
   ]

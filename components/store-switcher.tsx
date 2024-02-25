@@ -67,16 +67,16 @@ export default function StoreSwitcher({ className, items = [] }: StoreSwitcherPr
         <Command>
           <CommandList>
             <CommandInput placeholder="Search store..." />
-            <CommandEmpty>No store found.</CommandEmpty>
+            <CommandEmpty>Không tìm thấy.</CommandEmpty>
             <CommandGroup heading="Stores">
               {formattedItems.map((store) => (
                 <CommandItem
                   key={store.value}
                   onSelect={() => onStoreSelect(store)}
-                  className="text-sm"
+                  className="text-xs flex items-center"
                 >
                   <Store className="mr-2 h-4 w-4" />
-                  {store.label}
+                  <span>{store.label}</span>
                   <Check
                     className={cn(
                       "ml-auto h-4 w-4",

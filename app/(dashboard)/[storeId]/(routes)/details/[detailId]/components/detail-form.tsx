@@ -7,7 +7,7 @@ import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm } from "react-hook-form"
 import { toast } from "react-hot-toast"
 import { Trash } from "lucide-react"
-import { Size } from "@prisma/client"
+import { Detail } from "@prisma/client"
 import { useParams, useRouter } from "next/navigation"
 
 import { Input } from "@/components/ui/input"
@@ -26,16 +26,16 @@ import { AlertModal } from "@/components/modals/alert-modal"
 
 const formSchema = z.object({
   name: z.string().min(1),
-  value: z.string().min(1),
+  info: z.string().min(1),
 });
 
-type SizeFormValues = z.infer<typeof formSchema>
+type DetailFormValues = z.infer<typeof formSchema>
 
-interface SizeFormProps {
-  initialData: Size | null;
+interface DetailFormProps {
+  initialData: Detail | null;
 };
 
-export const SizeForm: React.FC<SizeFormProps> = ({
+export const DetailForm: React.FC<DetailFormProps> = ({
   initialData
 }) => {
   const params = useParams();
@@ -44,28 +44,28 @@ export const SizeForm: React.FC<SizeFormProps> = ({
   const [open, setOpen] = useState(false);
   const [loading, setLoading] = useState(false);
 
-  const title = initialData ? 'Edit size' : 'Create size';
-  const description = initialData ? 'Edit a size.' : 'Add a new size';
-  const toastMessage = initialData ? 'Size updated.' : 'Size created.';
+  const title = initialData ? 'Edit detail' : 'Create detail';
+  const description = initialData ? 'Edit a detail.' : 'Add a new detail';
+  const toastMessage = initialData ? 'Detail updated.' : 'Detail created.';
   const action = initialData ? 'Save changes' : 'Create';
 
-  const form = useForm<SizeFormValues>({
+  const form = useForm<DetailFormValues>({
     resolver: zodResolver(formSchema),
     defaultValues: initialData || {
       name: ''
     }
   });
 
-  const onSubmit = async (data: SizeFormValues) => {
+  const onSubmit = async (data: DetailFormValues) => {
     try {
       setLoading(true);
       if (initialData) {
-        await axios.patch(`/api/${params.storeId}/sizes/${params.sizeId}`, data);
+        await axios.patch(`/api/${params.storeId}/details/${params.detailId}`, data);
       } else {
-        await axios.post(`/api/${params.storeId}/sizes`, data);
+        await axios.post(`/api/${params.storeId}/details`, data);
       }
       router.refresh();
-      router.push(`/${params.storeId}/sizes`);
+      router.push(`/${params.storeId}/details`);
       toast.success(toastMessage);
     } catch (error: any) {
       toast.error('Something went wrong.');
@@ -77,12 +77,12 @@ export const SizeForm: React.FC<SizeFormProps> = ({
   const onDelete = async () => {
     try {
       setLoading(true);
-      await axios.delete(`/api/${params.storeId}/sizes/${params.sizeId}`);
+      await axios.delete(`/api/${params.storeId}/details/${params.detailId}`);
       router.refresh();
-      router.push(`/${params.storeId}/sizes`);
-      toast.success('Size deleted.');
+      router.push(`/${params.storeId}/details`);
+      toast.success('Detail deleted.');
     } catch (error: any) {
-      toast.error('Make sure you removed all products using this size first.');
+      toast.error('Make sure you removed all products using this detail first.');
     } finally {
       setLoading(false);
       setOpen(false);
@@ -121,7 +121,7 @@ export const SizeForm: React.FC<SizeFormProps> = ({
                 <FormItem>
                   <FormLabel>Name</FormLabel>
                   <FormControl>
-                    <Input disabled={loading} placeholder="Size name" {...field} />
+                    <Input disabled={loading} placeholder="Detail Product" {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -129,12 +129,12 @@ export const SizeForm: React.FC<SizeFormProps> = ({
             />
             <FormField
               control={form.control}
-              name="value"
+              name="info"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Value</FormLabel>
+                  <FormLabel>Thông tin chính</FormLabel>
                   <FormControl>
-                    <Input disabled={loading} placeholder="Size value" {...field} />
+                    <Input disabled={loading} placeholder="Detail info" {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>

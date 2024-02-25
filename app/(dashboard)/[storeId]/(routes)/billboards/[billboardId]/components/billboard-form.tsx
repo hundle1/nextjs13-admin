@@ -45,10 +45,10 @@ export const BillboardForm: React.FC<BillboardFormProps> = ({
   const [open, setOpen] = useState(false);
   const [loading, setLoading] = useState(false);
 
-  const title = initialData ? 'Edit billboard' : 'Create billboard';
-  const description = initialData ? 'Edit a billboard.' : 'Add a new billboard';
-  const toastMessage = initialData ? 'Billboard updated.' : 'Billboard created.';
-  const action = initialData ? 'Save changes' : 'Create';
+  const title = initialData ? 'Chỉnh Sửa Bảng Quảng Cáo' : 'Tạo Bảng Quảng Cáo Mới';
+  const description = initialData ? 'Chỉnh sửa lại một bảng quảng cáo cũ' : 'Thêm một bảng quảng cáo vào bộ sư tập';
+  const toastMessage = initialData ? 'Sửa đổi thành công.' : 'Tạo mới thành công.';
+  const action = initialData ? 'Thay Đổi' : 'Tạo Ngay';
 
   const form = useForm<BillboardFormValues>({
     resolver: zodResolver(formSchema),
@@ -82,9 +82,9 @@ export const BillboardForm: React.FC<BillboardFormProps> = ({
       await axios.delete(`/api/${params.storeId}/billboards/${params.billboardId}`);
       router.refresh();
       router.push(`/${params.storeId}/billboards`);
-      toast.success('Billboard deleted.');
+      toast.success('Xóa thành công.');
     } catch (error: any) {
-      toast.error('Make sure you removed all categories using this billboard first.');
+      toast.error('Hãy xóa những cài đặt kèm theo của quảng cáo trước.');
     } finally {
       setLoading(false);
       setOpen(false);
@@ -120,7 +120,7 @@ export const BillboardForm: React.FC<BillboardFormProps> = ({
               name="imageUrl"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Background image</FormLabel>
+                  <FormLabel>Ảnh Nền</FormLabel>
                   <FormControl>
                     <ImageUpload 
                       value={field.value ? [field.value] : []} 
@@ -139,9 +139,9 @@ export const BillboardForm: React.FC<BillboardFormProps> = ({
               name="label"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Label</FormLabel>
+                  <FormLabel>Tên nhãn của Quảng Cáo</FormLabel>
                   <FormControl>
-                    <Input disabled={loading} placeholder="Billboard label" {...field} />
+                    <Input disabled={loading} placeholder="Nhập tên..." {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>

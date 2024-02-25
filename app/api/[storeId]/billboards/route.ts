@@ -15,19 +15,19 @@ export async function POST(
     const { label, imageUrl } = body;
 
     if (!userId) {
-      return new NextResponse("Unauthenticated", { status: 403 });
+      return new NextResponse("Lỗi bảo mật!", { status: 403 });
     }
 
     if (!label) {
-      return new NextResponse("Label is required", { status: 400 });
+      return new NextResponse("Phải có tên!", { status: 400 });
     }
 
     if (!imageUrl) {
-      return new NextResponse("Image URL is required", { status: 400 });
+      return new NextResponse("Thiếu URL của Ảnh!", { status: 400 });
     }
 
     if (!params.storeId) {
-      return new NextResponse("Store id is required", { status: 400 });
+      return new NextResponse("Thiếu URL của bìa quảng cáo!", { status: 400 });
     }
 
     const storeByUserId = await prismadb.store.findFirst({
@@ -38,7 +38,7 @@ export async function POST(
     });
 
     if (!storeByUserId) {
-      return new NextResponse("Unauthorized", { status: 405 });
+      return new NextResponse("Lỗi bảo mật!", { status: 405 });
     }
 
     const billboard = await prismadb.billboard.create({
@@ -52,7 +52,7 @@ export async function POST(
     return NextResponse.json(billboard);
   } catch (error) {
     console.log('[BILLBOARDS_POST]', error);
-    return new NextResponse("Internal error", { status: 500 });
+    return new NextResponse("Lỗi hệ thống", { status: 500 });
   }
 };
 
@@ -62,7 +62,7 @@ export async function GET(
 ) {
   try {
     if (!params.storeId) {
-      return new NextResponse("Store id is required", { status: 400 });
+      return new NextResponse("Lỗi ID cửa hàng! Cửa hàng này không tồn tại", { status: 400 });
     }
 
     const billboards = await prismadb.billboard.findMany({

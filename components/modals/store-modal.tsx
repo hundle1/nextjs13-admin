@@ -45,8 +45,8 @@ export const StoreModal = () => {
 
   return (
     <Modal
-      title="Create store"
-      description="Add a new store to manage products and categories."
+      title="Tạo Cửa Hàng"
+      description="Hãy tạo một cửa hàng mới, bắt đầu bằng tên"
       isOpen={storeModal.isOpen} 
       onClose={storeModal.onClose}
     >
@@ -60,9 +60,9 @@ export const StoreModal = () => {
                   name="name"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Name</FormLabel>
+                      <FormLabel>Tên Cửa Hàng</FormLabel>
                       <FormControl>
-                        <Input disabled={loading} placeholder="E-Commerce" {...field} />
+                        <Input disabled={loading} placeholder="A-Z, a-z, 0-9,..." {...field} />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
@@ -70,9 +70,9 @@ export const StoreModal = () => {
                 />
                 <div className="pt-6 space-x-2 flex items-center justify-end w-full">
                   <Button disabled={loading} variant="outline" onClick={storeModal.onClose}>
-                    Cancel
+                    Hủy Bỏ
                   </Button>
-                  <Button disabled={loading} type="submit">Continue</Button>
+                  <Button disabled={loading} type="submit">Tạo Ngay</Button>
                 </div>
               </form>
             </Form>

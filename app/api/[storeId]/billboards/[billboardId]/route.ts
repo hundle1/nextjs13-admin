@@ -77,19 +77,19 @@ export async function PATCH(
     const { label, imageUrl } = body;
     
     if (!userId) {
-      return new NextResponse("Unauthenticated", { status: 403 });
+      return new NextResponse("Lỗi bảo mật!", { status: 403 });
     }
 
     if (!label) {
-      return new NextResponse("Label is required", { status: 400 });
+      return new NextResponse("Phải có tên!", { status: 400 });
     }
 
     if (!imageUrl) {
-      return new NextResponse("Image URL is required", { status: 400 });
+      return new NextResponse("Thiếu URL của Ảnh!", { status: 400 });
     }
 
     if (!params.billboardId) {
-      return new NextResponse("Billboard id is required", { status: 400 });
+      return new NextResponse("Thiếu URL của bìa quảng cáo!", { status: 400 });
     }
 
     const storeByUserId = await prismadb.store.findFirst({
@@ -100,7 +100,7 @@ export async function PATCH(
     });
 
     if (!storeByUserId) {
-      return new NextResponse("Unauthorized", { status: 405 });
+      return new NextResponse("Lỗi bảo mật!", { status: 405 });
     }
 
     const billboard = await prismadb.billboard.update({
@@ -116,6 +116,6 @@ export async function PATCH(
     return NextResponse.json(billboard);
   } catch (error) {
     console.log('[BILLBOARD_PATCH]', error);
-    return new NextResponse("Internal error", { status: 500 });
+    return new NextResponse("Lỗi hệ thống", { status: 500 });
   }
 };

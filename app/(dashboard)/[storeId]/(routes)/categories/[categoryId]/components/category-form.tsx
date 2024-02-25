@@ -47,10 +47,10 @@ export const CategoryForm: React.FC<CategoryFormProps> = ({
   const [open, setOpen] = useState(false);
   const [loading, setLoading] = useState(false);
 
-  const title = initialData ? 'Edit category' : 'Create category';
-  const description = initialData ? 'Edit a category.' : 'Add a new category';
-  const toastMessage = initialData ? 'Category updated.' : 'Category created.';
-  const action = initialData ? 'Save changes' : 'Create';
+  const title = initialData ? 'Chỉnh Sửa Danh Mục' : 'Tạo Danh Mục Mới';
+  const description = initialData ? 'Chỉnh sửa để thay đổi danh mục của bạn' : 'Thêm một danh mục mới vào lưu trữ';
+  const toastMessage = initialData ? 'Cập nhật thành công!' : 'Tạo thành công!';
+  const action = initialData ? 'Lưu thay đổi' : 'Tạo ngay';
 
   const form = useForm<CategoryFormValues>({
     resolver: zodResolver(formSchema),
@@ -72,7 +72,7 @@ export const CategoryForm: React.FC<CategoryFormProps> = ({
       router.push(`/${params.storeId}/categories`);
       toast.success(toastMessage);
     } catch (error: any) {
-      toast.error('Something went wrong.');
+      toast.error('Lỗi hệ thống.');
     } finally {
       setLoading(false);
     }
@@ -84,9 +84,9 @@ export const CategoryForm: React.FC<CategoryFormProps> = ({
       await axios.delete(`/api/${params.storeId}/categories/${params.categoryId}`);
       router.refresh();
       router.push(`/${params.storeId}/categories`);
-      toast.success('Category deleted.');
+      toast.success('Xóa thành công!');
     } catch (error: any) {
-      toast.error('Make sure you removed all products using this category first.');
+      toast.error('Hãy loại bỏ hết các sản phẩm của danh mục này trước!');
     } finally {
       setLoading(false);
       setOpen(false);
@@ -123,9 +123,9 @@ export const CategoryForm: React.FC<CategoryFormProps> = ({
               name="name"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Name</FormLabel>
+                  <FormLabel>Tên Danh Mục</FormLabel>
                   <FormControl>
-                    <Input disabled={loading} placeholder="Category name" {...field} />
+                    <Input disabled={loading} placeholder="Đặt tên..." {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -136,11 +136,11 @@ export const CategoryForm: React.FC<CategoryFormProps> = ({
               name="billboardId"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Billboard</FormLabel>
+                  <FormLabel>Chọn Bảng quảng cáo</FormLabel>
                   <Select disabled={loading} onValueChange={field.onChange} value={field.value} defaultValue={field.value}>
                     <FormControl>
                       <SelectTrigger>
-                        <SelectValue defaultValue={field.value} placeholder="Select a billboard" />
+                        <SelectValue defaultValue={field.value} placeholder="Chọn một bảng" />
                       </SelectTrigger>
                     </FormControl>
                     <SelectContent>

@@ -16,10 +16,10 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { AlertModal } from "@/components/modals/alert-modal";
 
-import { SizeColumn } from "./columns";
+import { DetailColumn } from "./columns";
 
 interface CellActionProps {
-  data: SizeColumn;
+  data: DetailColumn;
 }
 
 export const CellAction: React.FC<CellActionProps> = ({
@@ -33,8 +33,8 @@ export const CellAction: React.FC<CellActionProps> = ({
   const onConfirm = async () => {
     try {
       setLoading(true);
-      await axios.delete(`/api/${params.storeId}/sizes/${data.id}`);
-      toast.success('Size deleted.');
+      await axios.delete(`/api/${params.storeId}/details/${data.id}`);
+      toast.success('Detail deleted.');
       router.refresh();
     } catch (error) {
       toast.error('Make sure you removed all products using this size first.');
@@ -72,7 +72,7 @@ export const CellAction: React.FC<CellActionProps> = ({
             <Copy className="mr-2 h-4 w-4" /> Copy Id
           </DropdownMenuItem>
           <DropdownMenuItem
-            onClick={() => router.push(`/${params.storeId}/sizes/${data.id}`)}
+            onClick={() => router.push(`/${params.storeId}/details/${data.id}`)}
           >
             <Edit className="mr-2 h-4 w-4" /> Update
           </DropdownMenuItem>

@@ -3,21 +3,29 @@
 import { ColumnDef } from "@tanstack/react-table"
 
 import { CellAction } from "./cell-action"
+import  BillboardImage  from "./billboard-images";
+
 
 export type BillboardColumn = {
-  id: string
+  id: string;
+  imageUrl: string;
   label: string;
   createdAt: string;
 }
 
 export const columns: ColumnDef<BillboardColumn>[] = [
   {
+    header: "Ảnh nền",
+    cell: ({ row }) => <BillboardImage/>
+    // accessorKey: "imageUrl",
+  },
+  {
     accessorKey: "label",
-    header: "Label",
+    header: "Tên nhãn",
   },
   {
     accessorKey: "createdAt",
-    header: "Date",
+    header: "Ngày tạo",
   },
   {
     id: "actions",

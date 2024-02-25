@@ -9,10 +9,10 @@ import { Heading } from "@/components/ui/heading";
 import { Separator } from "@/components/ui/separator";
 import { ApiList } from "@/components/ui/api-list";
 
-import { ProductColumn, columns } from "./columns";
+import { ProductInfor, Pview } from "./product-view";
 
 interface ProductsClientProps {
-  data: ProductColumn[];
+  data: ProductInfor[];
 };
 
 export const ProductsClient: React.FC<ProductsClientProps> = ({
@@ -24,13 +24,13 @@ export const ProductsClient: React.FC<ProductsClientProps> = ({
   return (
     <> 
       <div className="flex items-center justify-between">
-        <Heading title={`Products (${data.length})`} description="Manage products for your store" />
+        <Heading title={`Danh Sách Sản Phẩm (${data.length})`} description="Thêm mới và chỉnh sửa NFTS của bạn" />
         <Button onClick={() => router.push(`/${params.storeId}/products/new`)}>
-          <Plus className="mr-2 h-4 w-4" /> Add New
+          <Plus className="mr-2 h-4 w-4" /> Thêm NFTS Mới
         </Button>
       </div>
       <Separator />
-      <DataTable searchKey="name" columns={columns} data={data} />
+      <DataTable searchKey="name" columns={Pview} data={data} />
       <Heading title="API" description="API Calls for Products" />
       <Separator />
       <ApiList entityName="products" entityIdName="productId" />

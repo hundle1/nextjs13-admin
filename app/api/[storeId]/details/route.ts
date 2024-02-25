@@ -1,7 +1,7 @@
 import { NextResponse } from 'next/server';
-import { auth } from '@clerk/nextjs';
 
 import prismadb from '@/lib/prismadb';
+import { auth } from '@clerk/nextjs';
  
 export async function POST(
   req: Request,
@@ -41,17 +41,17 @@ export async function POST(
       return new NextResponse("Unauthorized", { status: 405 });
     }
 
-    const size = await prismadb.size.create({
+    const detail = await prismadb.detail.create({
       data: {
         name,
-        value,
+        info,
         storeId: params.storeId
       }
     });
   
-    return NextResponse.json(size);
+    return NextResponse.json(detail);
   } catch (error) {
-    console.log('[SIZES_POST]', error);
+    console.log('[DETAILS_POST]', error);
     return new NextResponse("Internal error", { status: 500 });
   }
 };
@@ -65,15 +65,15 @@ export async function GET(
       return new NextResponse("Store id is required", { status: 400 });
     }
 
-    const sizes = await prismadb.size.findMany({
+    const details = await prismadb.detail.findMany({
       where: {
         storeId: params.storeId
       }
     });
   
-    return NextResponse.json(sizes);
+    return NextResponse.json(details);
   } catch (error) {
-    console.log('[SIZES_GET]', error);
+    console.log('[DETAILS_GET]', error);
     return new NextResponse("Internal error", { status: 500 });
   }
 };

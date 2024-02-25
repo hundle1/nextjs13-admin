@@ -16,10 +16,10 @@ import {
   DropdownMenuTrigger
 } from "@/components/ui/dropdown-menu";
 
-import { ProductColumn } from "./columns";
+import { ProductInfor } from "./product-view";
 
 interface CellActionProps {
-  data: ProductColumn;
+  data: ProductInfor;
 }
 
 export const CellAction: React.FC<CellActionProps> = ({
@@ -60,7 +60,7 @@ export const CellAction: React.FC<CellActionProps> = ({
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
           <Button variant="ghost" className="h-8 w-8 p-0">
-            <span className="sr-only">Open menu</span>
+            <span className="sr-only">Mở Menu</span>
             <MoreHorizontal className="h-4 w-4" />
           </Button>
         </DropdownMenuTrigger>
@@ -74,12 +74,12 @@ export const CellAction: React.FC<CellActionProps> = ({
           <DropdownMenuItem
             onClick={() => router.push(`/${params.storeId}/products/${data.id}`)}
           >
-            <Edit className="mr-2 h-4 w-4" /> Update
+            <Edit className="mr-2 h-4 w-4" /> Cập nhật
           </DropdownMenuItem>
           <DropdownMenuItem
             onClick={() => setOpen(true)}
           >
-            <Trash className="mr-2 h-4 w-4" /> Delete
+            <Trash className="mr-2 h-4 w-4" /> Xóa
           </DropdownMenuItem>
         </DropdownMenuContent>
       </DropdownMenu>
