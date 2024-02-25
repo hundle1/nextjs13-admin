@@ -74,7 +74,7 @@ export async function PATCH(
 
     const body = await req.json();
 
-    const { name, value } = body;
+    const { name, info } = body;
 
     if (!userId) {
       return new NextResponse("Unauthenticated", { status: 403 });
@@ -84,7 +84,7 @@ export async function PATCH(
       return new NextResponse("Tên không được để trống", { status: 400 });
     }
 
-    if (!value) {
+    if (!info) {
       return new NextResponse("Phải nhập thông tin", { status: 400 });
     }
 

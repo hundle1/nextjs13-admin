@@ -1,17 +1,17 @@
-"use client";
+"use client"
 
-import * as z from "zod";
-import axios from "axios";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useForm } from "react-hook-form";
-import { toast } from "react-hot-toast";
-import { Trash } from "lucide-react";
-import { Store, Wallet } from "@prisma/client";
-import { useParams, useRouter } from "next/navigation";
-import { useState } from "react";
+import * as z from "zod"
+import axios from "axios"
+import { zodResolver } from "@hookform/resolvers/zod"
+import { useForm } from "react-hook-form"
+import { toast } from "react-hot-toast"
+import { Trash } from "lucide-react"
+import { Store } from "@prisma/client"
+import { useParams, useRouter } from "next/navigation"
+import { useState } from "react"
 
-import { Input } from "@/components/ui/input";
-import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input"
+import { Button } from "@/components/ui/button"
 import {
   Form,
   FormControl,
@@ -19,25 +19,21 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from "@/components/ui/form";
-import { Separator } from "@/components/ui/separator";
-import { Heading } from "@/components/ui/heading";
-import { AlertModal } from "@/components/modals/alert-modal";
-import { ApiAlert } from "@/components/ui/api-alert";
-import { useOrigin } from "@/hooks/use-origin";
+} from "@/components/ui/form"
+import { Separator } from "@/components/ui/separator"
+import { Heading } from "@/components/ui/heading"
+import { AlertModal } from "@/components/modals/alert-modal"
+import { ApiAlert } from "@/components/ui/api-alert"
+import { useOrigin } from "@/hooks/use-origin"
 
 const formSchema = z.object({
   name: z.string().min(2),
-  wallets: z.string().min(1),
 });
 
 type SettingsFormValues = z.infer<typeof formSchema>
 
-
-
 interface SettingsFormProps {
   initialData: Store;
-  wallets: Wallet[];
 };
 
 export const SettingsForm: React.FC<SettingsFormProps> = ({
@@ -74,9 +70,9 @@ export const SettingsForm: React.FC<SettingsFormProps> = ({
       await axios.delete(`/api/stores/${params.storeId}`);
       router.refresh();
       router.push('/');
-      toast.success('Cửa hàng đã xóa thành công!');
+      toast.success('Store deleted.');
     } catch (error: any) {
-      toast.error('Hãy là trống cửa hàng của bạn trước!');
+      toast.error('Make sure you removed all products and categories first.');
     } finally {
       setLoading(false);
       setOpen(false);
@@ -91,8 +87,16 @@ export const SettingsForm: React.FC<SettingsFormProps> = ({
       onConfirm={onDelete}
       loading={loading}
     />
-      <div className="flex items-center justify-between">
-        <Heading title="Quản Lý Cửa Hàng" description="" />
+     <div className="flex items-center justify-between">
+        <Heading title="Store settings" description="Manage store preferences" />
+        <Button
+          disabled={loading}
+          variant="destructive"
+          size="sm"
+          onClick={() => setOpen(true)}
+        >
+          <Trash className="h-4 w-4" />
+        </Button>
       </div>
       <Separator />
       <Form {...form}>
@@ -103,9 +107,9 @@ export const SettingsForm: React.FC<SettingsFormProps> = ({
               name="name"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Thay đổi tên hiện tại:</FormLabel>
+                  <FormLabel>Name</FormLabel>
                   <FormControl>
-                    <Input disabled={loading} placeholder="Thay đổi tên mới..." {...field} />
+                    <Input disabled={loading} placeholder="Store name" {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -113,30 +117,16 @@ export const SettingsForm: React.FC<SettingsFormProps> = ({
             />
           </div>
           <Button disabled={loading} className="ml-auto" type="submit">
-            Lưu cài đặt
+            Save changes
           </Button>
         </form>
       </Form>
-      
       <Separator />
       <ApiAlert 
         title="NEXT_PUBLIC_API_URL" 
         variant="public" 
         description={`${origin}/api/${params.storeId}`}
       />
-      
-      <div className="flex items-center justify-between">
-        <Heading title="Xóa Vĩnh Viễn" description="Xóa vĩnh viễn cửa hàng của bạn, hãy cân nhắc trước khi xóa" />
-        <Button
-          disabled={loading}
-          variant="destructive"
-          size="sm"
-          onClick={() => setOpen(true)}
-        >
-          <Trash className="h-4 w-4" />
-        </Button>
-      </div>
-      
     </>
   );
 };

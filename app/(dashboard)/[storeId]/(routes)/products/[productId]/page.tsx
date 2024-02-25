@@ -34,11 +34,11 @@ const ProductPage = async ({
     },
   });
 
-  const supplies = await prismadb.supply.findMany({
-    where: {
-      productId: params.productId,
-    }
-  });
+  // const supplies = await prismadb.supply.findMany({
+  //   where: {
+  //     productId: params.productId,
+  //   }
+  // });
 
   // const files = await prismadb.file.findMany({
   //   where: {
@@ -53,7 +53,7 @@ const ProductPage = async ({
           categories={categories} 
           colors={colors}
           details={details}
-          supplies={supplies}
+          // supplies={supplies}
           // files={files}
           initialData={product}
         />

@@ -24,7 +24,7 @@ model Store {
   billboards      Billboard[]   @relation("StoreToBillboard")
   categories      Category[]    @relation("StoreToCategory")
   products        Product[]     @relation("StoreToProduct")
-  supply          Supply[]      @relation("StoreToSupply")
+  // supply          []      @relation("StoreToSupply")
   // file            File[]        @relation("StoreToFile")
   details         Detail[]      @relation("StoreToDetail")
   colors          Color[]       @relation("StoreToColor")
@@ -70,7 +70,7 @@ model Product {
   category    Category      @relation("CategoryToProduct", fields: [categoryId], references: [id])
   name        String
   price       Decimal
-  supply      Int
+  supply      Decimal
   isArchived  Boolean       @default(false)
   isFeatured  Boolean       @default(false)
   // fileId      String        // Foreign Key to File
@@ -170,15 +170,15 @@ model Image {
   @@index([productId])
 }
 
-model Supply {
-  id String @id @default(uuid())
-  value       Int
-  storeId     String   // Foreign Key to Store
-  store       Store    @relation("StoreToSupply", fields: [storeId], references: [id])
-  productId   String   // Foreign Key to Product
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
+// model Supply {
+//   id String @id @default(uuid())
+//   value       Int
+//   storeId     String   // Foreign Key to Store
+//   store       Store    @relation("StoreToSupply", fields: [storeId], references: [id])
+//   productId   String   // Foreign Key to Product
+//   createdAt   DateTime @default(now())
+//   updatedAt   DateTime @updatedAt
 
-  @@index([storeId])
-}
+//   @@index([storeId])
+// }
 

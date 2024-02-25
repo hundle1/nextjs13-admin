@@ -8,7 +8,7 @@ import { SettingsForm } from "./components/settings-form";
 const SettingsPage = async ({
   params
 }: {
-  params: { storeId: string, walletId: string},
+  params: { storeId: string }
 }) => {
   const { userId } = auth();
 
@@ -27,19 +27,10 @@ const SettingsPage = async ({
     redirect('/');
   }
 
-  const wallets = await prismadb.wallet.findMany({
-    where: {
-      id: params.walletId,
-    }
-  });
-
   return ( 
     <div className="flex-col">
       <div className="flex-1 space-y-4 p-8 pt-6">
-        <SettingsForm 
-          initialData={store} 
-          wallets={wallets}
-        />
+        <SettingsForm initialData={store} />
       </div>
     </div>
   );

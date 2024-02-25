@@ -31,7 +31,7 @@ const ProductsPage = async ({
     isFeatured: item.isFeatured,
     isArchived: item.isArchived,
     price: formatter.format(item.price.toNumber()),
-    supply: formatter.format(item.supply),
+    supply: formatter.format(item.supply.toNumber()),
     category: item.category.name,
     // file: item.fileId.toString(),
     detail: item.detail.name,

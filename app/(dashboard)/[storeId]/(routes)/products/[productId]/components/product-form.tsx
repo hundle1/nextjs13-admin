@@ -7,7 +7,7 @@ import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm } from "react-hook-form"
 import { toast } from "react-hot-toast"
 import { Trash } from "lucide-react"
-import { Category, Color, Image, Product, Detail, Supply } from "@prisma/client"
+import { Category, Color, Image, Product, Detail } from "@prisma/client"
 import { useParams, useRouter } from "next/navigation"
 
 import { Input } from "@/components/ui/input"
@@ -34,7 +34,7 @@ const formSchema = z.object({
   images: z.object({ url: z.string() }).array(),
   price: z.coerce.number().min(1),
   supply: z.coerce.number().min(1),
-  file: z.string().min(1),
+  // file: z.string().min(1),
   categoryId: z.string().min(1),
   colorId: z.string().min(1),
   detailId: z.string().min(1),
@@ -51,7 +51,7 @@ interface ProductFormProps {
   categories: Category[];
   colors: Color[];
   details: Detail[];
-  supplies: Supply[];
+  // supplies: Supply[];
   // files: File[];
 };
 
@@ -75,6 +75,7 @@ export const ProductForm: React.FC<ProductFormProps> = ({
   const defaultValues = initialData ? {
     ...initialData,
     price: parseFloat(String(initialData?.price)),
+    supply: parseFloat(String(initialData?.supply)),
   } : {
     name: '',
     images: [],
@@ -203,7 +204,7 @@ export const ProductForm: React.FC<ProductFormProps> = ({
                 <FormItem>
                   <FormLabel className="font-bold">Số Lượng Sản Phẩm Đúc</FormLabel>
                   <FormControl>
-                    <Input type='number' disabled={loading} placeholder="a-z, A-z, 1-9,..." {...field} />
+                    <Input type='number' disabled={loading} placeholder="...number" {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -253,7 +254,7 @@ export const ProductForm: React.FC<ProductFormProps> = ({
                   <Select disabled={loading} onValueChange={field.onChange} value={field.value} defaultValue={field.value}>
                     <FormControl>
                       <SelectTrigger>
-                        <SelectValue defaultValue={field.value} placeholder="Select a detail" />
+                        <SelectValue defaultValue={field.value} placeholder="Select a size" />
                       </SelectTrigger>
                     </FormControl>
                     <SelectContent>
@@ -324,11 +325,11 @@ export const ProductForm: React.FC<ProductFormProps> = ({
                     />
                   </FormControl>
                   <div className="space-y-1 leading-none">
-                    <FormLabel className="font-bold">
-                      Đã Bán
+                    <FormLabel>
+                      Đã bán
                     </FormLabel>
                     <FormDescription>
-                      Sản phẩm này sẽ không xuất hiện nếu đã bán hết số lượng!
+                      Sản phẩm này sẽ không còn xuất hiện trên Cửa Hàng của bạn!
                     </FormDescription>
                   </div>
                 </FormItem>

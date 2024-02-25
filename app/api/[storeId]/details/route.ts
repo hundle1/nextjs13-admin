@@ -12,7 +12,7 @@ export async function POST(
 
     const body = await req.json();
 
-    const { name, value } = body;
+    const { name, info } = body;
 
     if (!userId) {
       return new NextResponse("Unauthenticated", { status: 403 });
@@ -22,8 +22,8 @@ export async function POST(
       return new NextResponse("Name is required", { status: 400 });
     }
 
-    if (!value) {
-      return new NextResponse("Value is required", { status: 400 });
+    if (!info) {
+      return new NextResponse("info is required", { status: 400 });
     }
 
     if (!params.storeId) {
