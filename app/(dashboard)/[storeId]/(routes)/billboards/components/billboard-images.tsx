@@ -3,7 +3,7 @@
 const BillboardImage = () => {
     return (
         <div>
-            Ảnh
+            Ảnh Nền Tạm
         </div>
     );
 }

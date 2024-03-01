@@ -9,13 +9,13 @@ import { Heading } from "@/components/ui/heading";
 import { Separator } from "@/components/ui/separator";
 import { ApiList } from "@/components/ui/api-list";
 
-import { columns, ColorColumn } from "./columns";
+import { columns, ActorColumn } from "./columns";
 
-interface ColorClientProps {
-  data: ColorColumn[];
+interface ActorClientProps {
+  data: ActorColumn[];
 }
 
-export const ColorClient: React.FC<ColorClientProps> = ({
+export const ActorClient: React.FC<ActorClientProps> = ({
   data
 }) => {
   const params = useParams();
@@ -24,16 +24,16 @@ export const ColorClient: React.FC<ColorClientProps> = ({
   return (
     <>
       <div className="flex items-center justify-between">
-        <Heading title={`Colors (${data.length})`} description="Manage colors for your products" />
-        <Button onClick={() => router.push(`/${params.storeId}/colors/new`)}>
+        <Heading title={`Tác giả sản phẩm (${data.length})`} description="Manage Actors for your products" />
+        <Button onClick={() => router.push(`/${params.storeId}/actors/new`)}>
           <Plus className="mr-2 h-4 w-4" /> Thêm Tác Giả
         </Button>
       </div>
       <Separator />
       <DataTable searchKey="name" columns={columns} data={data} />
-      <Heading title="API" description="API Calls for Colors" />
+      <Heading title="API" description="API Calls for Actors" />
       <Separator />
-      <ApiList entityName="colors" entityIdName="colorId" />
+      <ApiList entityName="actors" entityIdName="actorId" />
     </>
   );
 };

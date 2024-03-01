@@ -28,17 +28,11 @@ const ProductPage = async ({
     },
   });
 
-  const colors = await prismadb.color.findMany({
+  const actors = await prismadb.actor.findMany({
     where: {
       storeId: params.storeId,
     },
   });
-
-  // const supplies = await prismadb.supply.findMany({
-  //   where: {
-  //     productId: params.productId,
-  //   }
-  // });
 
   // const files = await prismadb.file.findMany({
   //   where: {
@@ -51,9 +45,8 @@ const ProductPage = async ({
       <div className="flex-1 space-y-4 p-8 pt-6">
         <ProductForm 
           categories={categories} 
-          colors={colors}
+          actors={actors}
           details={details}
-          // supplies={supplies}
           // files={files}
           initialData={product}
         />

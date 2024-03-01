@@ -7,7 +7,7 @@ import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm } from "react-hook-form"
 import { toast } from "react-hot-toast"
 import { Trash } from "lucide-react"
-import { Color } from "@prisma/client"
+import { Actor } from "@prisma/client"
 import { useParams, useRouter } from "next/navigation"
 
 import { Input } from "@/components/ui/input"
@@ -25,19 +25,17 @@ import { Heading } from "@/components/ui/heading"
 import { AlertModal } from "@/components/modals/alert-modal"
 
 const formSchema = z.object({
-  name: z.string().min(2),
-  value: z.string().min(4).max(9).regex(/^#/, {
-    message: 'String must be a valid hex code'
-  }),
+  name: z.string().min(1),
+  nickname: z.string().min(1),
 });
 
-type ColorFormValues = z.infer<typeof formSchema>
+type ActorFormValues = z.infer<typeof formSchema>
 
-interface ColorFormProps {
-  initialData: Color | null;
+interface ActorFormProps {
+  initialData: Actor | null;
 };
 
-export const ColorForm: React.FC<ColorFormProps> = ({
+export const ActorForm: React.FC<ActorFormProps> = ({
   initialData
 }) => {
   const params = useParams();
@@ -46,28 +44,29 @@ export const ColorForm: React.FC<ColorFormProps> = ({
   const [open, setOpen] = useState(false);
   const [loading, setLoading] = useState(false);
 
-  const title = initialData ? 'Edit color' : 'Create color';
-  const description = initialData ? 'Edit a color.' : 'Add a new color';
-  const toastMessage = initialData ? 'Color updated.' : 'Color created.';
+  const title = initialData ? 'Edit actor' : 'Create actor';
+  const description = initialData ? 'Edit a actor.' : 'Add a new actor';
+  const toastMessage = initialData ? 'actor updated.' : 'actor created.';
   const action = initialData ? 'Save changes' : 'Create';
 
-  const form = useForm<ColorFormValues>({
+  const form = useForm<ActorFormValues>({
     resolver: zodResolver(formSchema),
     defaultValues: initialData || {
-      name: ''
+      name: '',
+      nickname: '',
     }
   });
 
-  const onSubmit = async (data: ColorFormValues) => {
+  const onSubmit = async (data: ActorFormValues) => {
     try {
       setLoading(true);
       if (initialData) {
-        await axios.patch(`/api/${params.storeId}/colors/${params.colorId}`, data);
+        await axios.patch(`/api/${params.storeId}/actors/${params.actorId}`, data);
       } else {
-        await axios.post(`/api/${params.storeId}/colors`, data);
+        await axios.post(`/api/${params.storeId}/actors`, data);
       }
       router.refresh();
-      router.push(`/${params.storeId}/colors`);
+      router.push(`/${params.storeId}/actors`);
       toast.success(toastMessage);
     } catch (error: any) {
       toast.error('Something went wrong.');
@@ -79,12 +78,12 @@ export const ColorForm: React.FC<ColorFormProps> = ({
   const onDelete = async () => {
     try {
       setLoading(true);
-      await axios.delete(`/api/${params.storeId}/colors/${params.colorId}`);
+      await axios.delete(`/api/${params.storeId}/actors/${params.actorId}`);
       router.refresh();
-      router.push(`/${params.storeId}/colors`);
-      toast.success('Color deleted.');
+      router.push(`/${params.storeId}/actors`);
+      toast.success('actor deleted.');
     } catch (error: any) {
-      toast.error('Make sure you removed all products using this color first.');
+      toast.error('Make sure you removed all products using this actor name first.');
     } finally {
       setLoading(false);
       setOpen(false);
@@ -121,9 +120,9 @@ export const ColorForm: React.FC<ColorFormProps> = ({
               name="name"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Name</FormLabel>
+                  <FormLabel>Tên Thật</FormLabel>
                   <FormControl>
-                    <Input disabled={loading} placeholder="Color name" {...field} />
+                    <Input disabled={loading} placeholder="Tên thật tác giả" {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -131,17 +130,13 @@ export const ColorForm: React.FC<ColorFormProps> = ({
             />
             <FormField
               control={form.control}
-              name="value"
+              name="nickname"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Value</FormLabel>
+                  <FormLabel>Nick Name</FormLabel>
                   <FormControl>
                     <div className="flex items-center gap-x-4">
-                      <Input disabled={loading} placeholder="Color value" {...field} />
-                      <div 
-                        className="border p-4 rounded-full" 
-                        style={{ backgroundColor: field.value }}
-                      />
+                      <Input disabled={loading} placeholder="nick name tác giả" {...field} />
                     </div>
                   </FormControl>
                   <FormMessage />

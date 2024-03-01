@@ -31,7 +31,7 @@ export const BillboardClient: React.FC<BillboardClientProps> = ({
       </div>
       <Separator />
       <DataTable searchKey="label" columns={columns} data={data} />
-      <Heading title="API" description="API Calls for Billboards" />
+      <Heading title="API" description="Phần API" />
       <Separator />
       <ApiList entityName="billboards" entityIdName="billboardId" />
     </>

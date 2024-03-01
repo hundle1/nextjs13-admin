@@ -7,7 +7,7 @@ import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm } from "react-hook-form"
 import { toast } from "react-hot-toast"
 import { Trash } from "lucide-react"
-import { Category, Color, Image, Product, Detail } from "@prisma/client"
+import { Category, Actor , Image, Product, Detail } from "@prisma/client"
 import { useParams, useRouter } from "next/navigation"
 
 import { Input } from "@/components/ui/input"
@@ -34,9 +34,10 @@ const formSchema = z.object({
   images: z.object({ url: z.string() }).array(),
   price: z.coerce.number().min(1),
   supply: z.coerce.number().min(1),
+  productinf: z.string().min(1),
   // file: z.string().min(1),
   categoryId: z.string().min(1),
-  colorId: z.string().min(1),
+  actorId: z.string().min(1),
   detailId: z.string().min(1),
   isFeatured: z.boolean().default(false).optional(),
   isArchived: z.boolean().default(false).optional()
@@ -49,9 +50,8 @@ interface ProductFormProps {
     images: Image[]
   } | null;
   categories: Category[];
-  colors: Color[];
   details: Detail[];
-  // supplies: Supply[];
+  actors: Actor[];
   // files: File[];
 };
 
@@ -59,7 +59,7 @@ export const ProductForm: React.FC<ProductFormProps> = ({
   initialData,
   categories,
   details,
-  colors,
+  actors,
 }) => {
   const params = useParams();
   const router = useRouter();
@@ -81,9 +81,10 @@ export const ProductForm: React.FC<ProductFormProps> = ({
     images: [],
     price: 0,
     supply: 0,
+    productinf: '',
     // file: '',
     categoryId: '',
-    colorId: '',
+    actorId: '',
     detailId: '',
     isFeatured: false,
     isArchived: false,
@@ -106,7 +107,7 @@ export const ProductForm: React.FC<ProductFormProps> = ({
       router.push(`/${params.storeId}/products`);
       toast.success(toastMessage);
     } catch (error: any) {
-      toast.error('Something went wrong.');
+      toast.error('Something went wrong');
     } finally {
       setLoading(false);
     }
@@ -269,22 +270,35 @@ export const ProductForm: React.FC<ProductFormProps> = ({
             />
             <FormField
               control={form.control}
-              name="colorId"
+              name="actorId"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel className="font-bold">Miêu Tả</FormLabel>
+                  <FormLabel className="font-bold">Tác Giả/Đội Nhóm</FormLabel>
                   <Select disabled={loading} onValueChange={field.onChange} value={field.value} defaultValue={field.value}>
                     <FormControl>
                       <SelectTrigger>
-                        <SelectValue defaultValue={field.value} placeholder="Select a color" />
+                        <SelectValue defaultValue={field.value} placeholder="Select a nick name" />
                       </SelectTrigger>
                     </FormControl>
                     <SelectContent>
-                      {colors.map((color) => (
-                        <SelectItem key={color.id} value={color.id}>{color.name}</SelectItem>
+                      {actors.map((actor) => (
+                        <SelectItem key={actor.id} value={actor.id}>{actor.name}</SelectItem>
                       ))}
                     </SelectContent>
                   </Select>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="productinf"
+              render={({ field }) => (
+                <FormItem className="">
+                  <FormLabel className="font-bold">Mô tả Sản Phẩm</FormLabel>
+                  <FormControl>
+                    <Input className="py-10" disabled={loading} placeholder="a-z, A-z, 1-9,..." {...field} />
+                  </FormControl>
                   <FormMessage />
                 </FormItem>
               )}

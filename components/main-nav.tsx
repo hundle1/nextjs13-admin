@@ -34,9 +34,9 @@ export function MainNav({
       active: pathname === `/${params.storeId}/details`,
     },
     {
-      href: `/${params.storeId}/colors`,
-      label: 'Miêu Tả',
-      active: pathname === `/${params.storeId}/colors`,
+      href: `/${params.storeId}/actors`,
+      label: 'Tác Giả',
+      active: pathname === `/${params.storeId}/actors`,
     },
     {
       href: `/${params.storeId}/products`,

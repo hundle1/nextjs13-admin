@@ -27,7 +27,7 @@ model Store {
   // supply          []      @relation("StoreToSupply")
   // file            File[]        @relation("StoreToFile")
   details         Detail[]      @relation("StoreToDetail")
-  colors          Color[]       @relation("StoreToColor")
+  actors          Actor[]       @relation("StoreToActor")
   orders          Order[]       @relation("StoreToOrder")
   createdAt       DateTime      @default(now())
   updatedAt       DateTime      @updatedAt
@@ -69,6 +69,7 @@ model Product {
   categoryId  String        // Foreign Key to Category
   category    Category      @relation("CategoryToProduct", fields: [categoryId], references: [id])
   name        String
+  productinf  String
   price       Decimal
   supply      Decimal
   isArchived  Boolean       @default(false)
@@ -77,8 +78,8 @@ model Product {
   // file        File          @relation(fields: [fileId], references: [id])
   detailId      String        // Foreign Key to 
   detail        Detail          @relation(fields: [detailId], references: [id])
-  colorId     String        // Foreign Key to 
-  color       Color         @relation(fields: [colorId], references: [id])
+  actorId     String        // Foreign Key to 
+  actor       Actor         @relation(fields: [actorId], references: [id])
   images      Image[]       // Relation to Image model
   orderItems  OrderItem[]   // Relation to Order model
   createdAt   DateTime      @default(now())
@@ -87,7 +88,7 @@ model Product {
   @@index([storeId])
   @@index([categoryId])
   @@index([detailId])
-  @@index([colorId])
+  @@index([actorId])
   // @@index([fileId])
 }
 
@@ -146,12 +147,12 @@ model Detail {
 }
 
 
-model Color {
+model Actor {
   id          String   @id @default(uuid())
   storeId     String   // Foreign Key to Store
-  store       Store    @relation("StoreToColor", fields: [storeId], references: [id])
+  store       Store    @relation("StoreToActor", fields: [storeId], references: [id])
   name        String
-  value       String
+  nickname    String
   products    Product[] // Relation to Product model
   createdAt   DateTime  @default(now())
   updatedAt   DateTime  @updatedAt
@@ -169,16 +170,3 @@ model Image {
 
   @@index([productId])
 }
-
-// model Supply {
-//   id String @id @default(uuid())
-//   value       Int
-//   storeId     String   // Foreign Key to Store
-//   store       Store    @relation("StoreToSupply", fields: [storeId], references: [id])
-//   productId   String   // Foreign Key to Product
-//   createdAt   DateTime @default(now())
-//   updatedAt   DateTime @updatedAt
-
-//   @@index([storeId])
-// }
-

@@ -12,7 +12,7 @@ export async function POST(
 
     const body = await req.json();
 
-    const { name, price, categoryId, colorId, sizeId, images, isFeatured, isArchived } = body;
+    const { name, price, supply, productinf, categoryId, actorId, detailId, images, isFeatured, isArchived } = body;
 
     if (!userId) {
       return new NextResponse("Unauthenticated", { status: 403 });
@@ -30,15 +30,23 @@ export async function POST(
       return new NextResponse("Price is required", { status: 400 });
     }
 
+    if (!supply) {
+      return new NextResponse("Supply is required", { status: 400 });
+    }
+
+    if (!productinf) {
+      return new NextResponse("Productinf is required", { status: 400 });
+    }
+
     if (!categoryId) {
       return new NextResponse("Category id is required", { status: 400 });
     }
 
-    if (!colorId) {
-      return new NextResponse("Color id is required", { status: 400 });
+    if (!actorId) {
+      return new NextResponse("actor id is required", { status: 400 });
     }
 
-    if (!sizeId) {
+    if (!detailId) {
       return new NextResponse("Size id is required", { status: 400 });
     }
 
@@ -59,13 +67,16 @@ export async function POST(
 
     const product = await prismadb.product.create({
       data: {
+        userId,
         name,
         price,
+        supply,
+        productinf,
         isFeatured,
         isArchived,
         categoryId,
-        colorId,
-        sizeId,
+        actorId,
+        detailId,
         storeId: params.storeId,
         images: {
           createMany: {
@@ -91,8 +102,8 @@ export async function GET(
   try {
     const { searchParams } = new URL(req.url)
     const categoryId = searchParams.get('categoryId') || undefined;
-    const colorId = searchParams.get('colorId') || undefined;
-    const sizeId = searchParams.get('sizeId') || undefined;
+    const actorId = searchParams.get('actorId') || undefined;
+    const detailId = searchParams.get('detailId') || undefined;
     const isFeatured = searchParams.get('isFeatured');
 
     if (!params.storeId) {
@@ -103,16 +114,16 @@ export async function GET(
       where: {
         storeId: params.storeId,
         categoryId,
-        colorId,
-        sizeId,
+        actorId,
+        detailId,
         isFeatured: isFeatured ? true : undefined,
         isArchived: false,
       },
       include: {
         images: true,
         category: true,
-        color: true,
-        size: true,
+        actor: true,
+        detail: true,
       },
       orderBy: {
         createdAt: 'desc',

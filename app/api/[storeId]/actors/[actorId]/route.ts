@@ -5,29 +5,29 @@ import { auth } from "@clerk/nextjs";
 
 export async function GET(
   req: Request,
-  { params }: { params: { colorId: string } }
+  { params }: { params: { actorId: string } }
 ) {
   try {
-    if (!params.colorId) {
-      return new NextResponse("Color id is required", { status: 400 });
+    if (!params.actorId) {
+      return new NextResponse("Actor name id is required", { status: 400 });
     }
 
-    const color = await prismadb.color.findUnique({
+    const actor = await prismadb.actor.findUnique({
       where: {
-        id: params.colorId
+        id: params.actorId
       }
     });
   
-    return NextResponse.json(color);
+    return NextResponse.json(actor);
   } catch (error) {
-    console.log('[COLOR_GET]', error);
+    console.log('[ACTOR_GET]', error);
     return new NextResponse("Internal error", { status: 500 });
   }
 };
 
 export async function DELETE(
   req: Request,
-  { params }: { params: { colorId: string, storeId: string } }
+  { params }: { params: { actorId: string, storeId: string } }
 ) {
   try {
     const { userId } = auth();
@@ -36,8 +36,8 @@ export async function DELETE(
       return new NextResponse("Unauthenticated", { status: 403 });
     }
 
-    if (!params.colorId) {
-      return new NextResponse("Color id is required", { status: 400 });
+    if (!params.actorId) {
+      return new NextResponse("Actor name id is required", { status: 400 });
     }
 
     const storeByUserId = await prismadb.store.findFirst({
@@ -51,15 +51,15 @@ export async function DELETE(
       return new NextResponse("Unauthorized", { status: 405 });
     }
 
-    const color = await prismadb.color.delete({
+    const actor = await prismadb.actor.delete({
       where: {
-        id: params.colorId
+        id: params.actorId
       }
     });
   
-    return NextResponse.json(color);
+    return NextResponse.json(actor);
   } catch (error) {
-    console.log('[COLOR_DELETE]', error);
+    console.log('[ACTOR_DELETE]', error);
     return new NextResponse("Internal error", { status: 500 });
   }
 };
@@ -67,14 +67,14 @@ export async function DELETE(
 
 export async function PATCH(
   req: Request,
-  { params }: { params: { colorId: string, storeId: string } }
+  { params }: { params: { actorId: string, storeId: string } }
 ) {
   try {
     const { userId } = auth();
 
     const body = await req.json();
 
-    const { name, value } = body;
+    const { name, nickname } = body;
 
     if (!userId) {
       return new NextResponse("Unauthenticated", { status: 403 });
@@ -84,13 +84,13 @@ export async function PATCH(
       return new NextResponse("Name is required", { status: 400 });
     }
 
-    if (!value) {
-      return new NextResponse("Value is required", { status: 400 });
+    if (!nickname) {
+      return new NextResponse("Nick Name is required", { status: 400 });
     }
 
 
-    if (!params.colorId) {
-      return new NextResponse("Color id is required", { status: 400 });
+    if (!params.actorId) {
+      return new NextResponse("Actor name id is required", { status: 400 });
     }
 
     const storeByUserId = await prismadb.store.findFirst({
@@ -104,19 +104,19 @@ export async function PATCH(
       return new NextResponse("Unauthorized", { status: 405 });
     }
 
-    const color = await prismadb.color.update({
+    const actor = await prismadb.actor.update({
       where: {
-        id: params.colorId
+        id: params.actorId
       },
       data: {
         name,
-        value
+        nickname,
       }
     });
   
-    return NextResponse.json(color);
+    return NextResponse.json(actor);
   } catch (error) {
-    console.log('[COLOR_PATCH]', error);
+    console.log('[ACTOR_PATCH]', error);
     return new NextResponse("Internal error", { status: 500 });
   }
 };
