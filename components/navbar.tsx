@@ -23,7 +23,6 @@ const Navbar = async () => {
     <div className="border-b">
       <div className="flex h-16 items-center px-4">
         <a href="https://phuongdong.edu.vn/" className="cursor-pointer">
-          {/* <img src="https://pbs.twimg.com/media/F7PzsHwawAA_WZK?format=jpg&name=medium" className="mx-5 w-12 h-12"/> */}
           <Image src={Avatar} 
                 alt={"avatar"}
                 width={40}

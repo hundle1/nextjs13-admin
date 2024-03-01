@@ -1,3 +1,4 @@
+import Image from "next/image";
 import React, { useEffect, useState } from "react";
 import { useDropzone, Accept } from "react-dropzone";
 
@@ -60,7 +61,7 @@ function Dropzone() {
   const thumbs = files.map((file) => (
     <div style={thumb} key={file.name}>
       <div style={thumbInner}>
-        <img src={file.preview} style={img} alt={file.name} />
+        <Image src={file.preview} style={img} width={100} height={100} alt={file.name} />
       </div>
       <button onClick={removeFile(file)}>Remove File</button>
     </div>
